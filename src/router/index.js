@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import AboutView from '../views/AboutView.vue'
-import UsuariosView from '../views/UsuariosView.vue'
+import ListarTecnicos from '../views/ListarTecnicos.vue'
 
 
 Vue.use(VueRouter)
@@ -19,9 +19,9 @@ const routes = [
     component: AboutView
     },
   {
-      path: '/usuarios',
-      name: 'usuarios',
-      component: UsuariosView
+      path: '/ListarTecnicos',
+      name: 'ListarTecnicos',
+      component: ListarTecnicos
   },
 ]
 

@@ -40,7 +40,7 @@ export default {
         subitems: [
           { nombre: "Crear Tecnico", ruta: "/", icono: "mdi-account-plus"},
           { nombre: "Modificar Tecnico", ruta: "/about", icono: "mdi-account-edit" },
-          { nombre: "Listar Tecnicos", ruta: "/usuarios", icono: "mdi-list-box" }
+          { nombre: "Listar Tecnicos", ruta: "/ListarTecnicos", icono: "mdi-list-box" }
         ]
       },
       {
@@ -49,7 +49,7 @@ export default {
         subitems: [
           { nombre: "Crear Grupo", ruta: "/", icono: "mdi-account-multiple-plus" },
           { nombre: "Modificar Grupo", ruta: "/about", icono: "mdi-pencil" },
-          { nombre: "Listar Grupos", ruta: "/usuarios", icono: "mdi-list-box" }
+          { nombre: "Listar Grupos", ruta: "/ListarTecnicos", icono: "mdi-list-box" }
         ]
       },
       {
@@ -59,7 +59,7 @@ export default {
           { nombre: "Agregar Tarea", ruta: "/", icono: "mdi-plus" },
           { nombre: "Modificar Tareas", ruta: "/about", icono: "mdi-pencil" },
           { nombre: "Modificar Precio", ruta: "/about", icono: "mdi-currency-usd" },
-          { nombre: "Listar Tareas", ruta: "/usuarios", icono: "mdi-list-box" },
+          { nombre: "Listar Tareas", ruta: "/ListarTecnicos", icono: "mdi-list-box" },
         ]
       },
       {
@@ -68,7 +68,7 @@ export default {
         subitems: [
           { nombre: "Nueva Certificacion", ruta: "/", icono: "mdi-cash-plus" },
           { nombre: "Consultar Certificacion", ruta: "/about", icono: "mdi-pencil" },
-          { nombre: "Listar Certifiaciones", ruta: "/usuarios", icono: "mdi-view-list" }
+          { nombre: "Listar Certifiaciones", ruta: "/ListarTecnicos", icono: "mdi-view-list" }
         ]
       },
     ]
