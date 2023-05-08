@@ -1,154 +1,145 @@
 <template>
-  <v-container fluid>
+  <v-container>
     <v-row>
-      <v-col cols="12" sm="6">
-        <v-card>
-          <v-card-title>Registrar tarea</v-card-title>
-          <v-card-text>
-            <v-form ref="form" v-model="valid" lazy-validation>
-              <v-select
-                v-model="grupo"
-                :items="grupos"
-                label="Grupo que hizo la tarea"
-                required
-              ></v-select>
-              <v-select
-                v-model="tarea"
-                :items="tareas"
-                label="Tarea realizada"
-                required
-              ></v-select>
-              <v-text-field
-                v-model="conexion"
-                label="Conexión"
-                required
-              ></v-text-field>
-              <v-menu
-                v-model="menuFecha"
-                :close-on-content-click="false"
-                :nudge-right="40"
-                transition="scale-transition"
-                offset-y
-                min-width="290px"
-              >
-                <template v-slot:activator="{ on, attrs }">
-                  <v-text-field
-                    v-model="fecha"
-                    label="Fecha de realización"
-                    prepend-icon="mdi-calendar"
-                    readonly
-                    v-bind="attrs"
-                    v-on="on"
-                    required
-                  ></v-text-field>
-                </template>
-                <v-date-picker v-model="fecha" no-title scrollable>
-                  <v-spacer></v-spacer>
-                  <v-btn text color="primary" @click="menuFecha = false">
-                    Cancel
-                  </v-btn>
-                  <v-btn text color="primary" @click="menuFecha = false">
-                    OK
-                  </v-btn>
-                </v-date-picker>
-              </v-menu>
-              <v-menu
-                v-model="menuHora"
-                :close-on-content-click="false"
-                :nudge-right="40"
-                transition="scale-transition"
-                offset-y
-                min-width="290px"
-              >
-                <template v-slot:activator="{ on, attrs }">
-                  <v-text-field
-                    v-model="hora"
-                    label="Hora"
-                    prepend-icon="mdi-clock-outline"
-                    readonly
-                    v-bind="attrs"
-                    v-on="on"
-                    required
-                  ></v-text-field>
-                </template>
-                <v-time-picker v-model="hora" full-width>
-                  <v-spacer></v-spacer>
-                  <v-btn text color="primary" @click="menuHora = false">
-                    Cancel
-                  </v-btn>
-                  <v-btn text color="primary" @click="menuHora = false">
-                    OK
-                  </v-btn>
-                </v-time-picker>
-              </v-menu>
-              <v-textarea
-                v-model="observacion"
-                label="Observación"
-                required
-              ></v-textarea>
-            </v-form>
-          </v-card-text>
-          <v-card-actions>
-            <v-btn color="primary" @click="registrarTarea">Registrar</v-btn>
-          </v-card-actions>
-        </v-card>
+      <v-col cols="12" sm="6" md="3">
+        <v-menu
+          v-model="fechaMenu"
+          :close-on-content-click="false"
+          :nudge-right="40"
+          transition="scale-transition"
+          offset-y
+          min-width="auto"
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-text-field
+              v-model="fecha"
+              label="Fecha"
+              append-icon="mdi-calendar"
+              readonly
+              v-bind="attrs"
+              v-on="on"
+              dense
+              class="mt-2"
+            ></v-text-field>
+          </template>
+          <v-date-picker v-model="fecha" @input="fechaMenu = false"></v-date-picker>
+        </v-menu>
+      </v-col>
+      <v-col cols="12" sm="6" md="3">
+        <v-menu
+          v-model="horaMenu"
+          :close-on-content-click="false"
+          :nudge-right="40"
+          transition="scale-transition"
+          offset-y
+          min-width="auto"
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-text-field
+              v-model="hora"
+              label="Hora"
+              append-icon="mdi-clock"
+              readonly
+              v-bind="attrs"
+              v-on="on"
+              dense
+              class="mt-2"
+            ></v-text-field>
+          </template>
+          <v-time-picker v-model="hora" @input="horaMenu = false"></v-time-picker>
+        </v-menu>
+      </v-col>
+      <v-col cols="12" sm="6" md="6">
+        <v-select :items="grupoOptions" label="Descripción" v-model="descripcion"></v-select>
+      </v-col>
+      <v-col cols="12" sm="6" md="3">
+        <v-text-field label="Conexión" v-model="conexion"></v-text-field>
+      </v-col>
+      <v-col cols="12" sm="6" md="9">
+        <v-textarea label="Observaciones" v-model="observaciones"></v-textarea>
+      </v-col>
+      <v-col cols="12">
+        <v-btn color="primary" @click="agregarTarea">Agregar tarea</v-btn>
+      </v-col>
+      <v-col cols="12" v-for="(tarea, index) in tareas" :key="index">
+        <v-row>
+          <v-col cols="12" sm="6" md="6">
+            <v-select :items="tareaOptions" label="Descripción tarea" v-model="tarea.descripcion"></v-select>
+          </v-col>
+          <v-col cols="12" sm="6" md="3">
+            <v-text-field label="Cantidad" v-model.number="tarea.cantidad"></v-text-field>
+          </v-col>
+          <v-col cols="12" sm="6" md="3">
+            <v-btn color="error" @click="eliminarTarea(index)">Eliminar tarea</v-btn>
+          </v-col>
+        </v-row>
+      </v-col>
+      <v-col cols="12">
+        <v-btn color="primary" @click="enviarFormulario">Enviar formulario</v-btn>
       </v-col>
     </v-row>
   </v-container>
 </template>
 <script>
+import axios from "axios";
+
 export default {
-  name: "RegistrarTarea",
+  name: "Formulario",
   data() {
     return {
-      grupos: [],
-      tareas: [],
-      grupoSeleccionado: "",
-      tareaSeleccionada: "",
-      conexion: "",
-      tareaRealizada: "",
       fecha: "",
       hora: "",
-      observacion: "",
+      descripcion: "",
+      conexion: "",
+      observaciones: "",
+      tareas: [{ descripcion: "", cantidad: "" }],
+      tareaOptions: [],
+      grupoOptions: [],
     };
   },
-  mounted() {
-    this.fetchGrupos();
-    this.fetchTareas();
+  async mounted() {
+    try {
+      const responseTareas = await axios.get("http://localhost:4000/api/tareas");
+      this.tareaOptions = responseTareas.data.body.map((tarea) => ({
+        text: tarea.nombre,
+        value: tarea.id,
+      }));
+      const responseGrupos = await axios.get("http://localhost:4000/api/grupos");
+      this.grupoOptions = responseGrupos.data.body.map((grupo) => ({
+        text: grupo.descripcion,
+        value: grupo.id,
+      }));
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  watch: {
   },
   methods: {
-    async fetchGrupos() {
-      const url = "http://localhost:4000/api/grupos";
-      const response = await fetch(url);
-      const data = await response.json();
-      this.grupos = data.body;
+    agregarTarea() {
+      this.tareas.push({ descripcion: "", cantidad: "" });
     },
-    async fetchTareas() {
-      const url = "http://localhost:4000/api/tareas";
-      const response = await fetch(url);
-      const data = await response.json();
-      this.tareas = data.body;
+    eliminarTarea(index) {
+      this.tareas.splice(index, 1);
     },
-    async submitForm() {
-      const url = "http://localhost:4000/api/tareas";
-      const data = {
-        grupo: this.grupoSeleccionado,
-        tarea: this.tareaSeleccionada,
-        conexion: this.conexion,
-        tareaRealizada: this.tareaRealizada,
-        fecha: this.fecha,
-        hora: this.hora,
-        observacion: this.observacion,
-      };
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-      const responseData = await response.json();
-      console.log(responseData);
+    async enviarFormulario() {
+      try {
+        const data = {
+          fecha: this.fecha,
+          hora: this.hora,
+          descripcion: this.descripcion,
+          conexion: this.conexion,
+          observacion: this.observaciones,
+          tareas: this.tareas,
+        };
+        const response = await axios.post(
+          "http://localhost:4000/api/formulario",
+          data
+        );
+        console.log(response.data);
+      } catch (error) {
+        console.error(error);
+      }
     },
   },
 };

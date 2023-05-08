@@ -40,12 +40,12 @@ export default {
       const response = await fetch("http://localhost:4000/api/grupos/grupostecnicos");
       const data = await response.json();
       this.grupos = data.body.reduce((acc, curr) => {
-        const grupoIndex = acc.findIndex((grupo) => grupo.numGrupo === curr.idGrupos);
+        const grupoIndex = acc.findIndex((grupo) => grupo.numGrupo === curr.idGupo);
         if (grupoIndex !== -1) {
           acc[grupoIndex].tecnicos.push(curr);
         } else {
           acc.push({
-            numGrupo: curr.idGrupos,
+            numGrupo: curr.idGupo,
             tecnicos: [curr],
           });
         }

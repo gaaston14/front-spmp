@@ -48,8 +48,7 @@ export default {
         icono: "mdi-account-group",
         menu:false,
         subitems: [
-          { nombre: "Crear Grupo", ruta: "/", icono: "mdi-account-multiple-plus" },
-          { nombre: "Modificar Grupo", ruta: "/about", icono: "mdi-pencil" },
+          { nombre: "Crear Grupo", ruta: "/AgregarGrupo", icono: "mdi-account-multiple-plus" },
           { nombre: "Listar Grupos", ruta: "/ListarGrupos", icono: "mdi-list-box" }
         ]
       },

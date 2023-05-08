@@ -7,6 +7,7 @@ import EditarTecnicos from '../views/EditarTecnicos.vue'
 import ListarTecnicos from '../views/ListarTecnicos.vue'
 import ListarTareas from '../views/ListarTareas.vue'
 import ListarGrupos from '../views/ListarGrupos.vue'
+import AgregarGrupo from '../views/AgregarGrupo.vue'
 import RegistrarCertificacion from '../views/RegistrarTareaCertificacion.vue'
 
 Vue.use(VueRouter)
@@ -32,11 +33,11 @@ const routes = [
       name: 'ListarTecnicos',
       component: ListarTecnicos
   },
-{
-  path: '/EditarTecnicos',
-  name: 'EditarTecnicos',
-  component: EditarTecnicos
-},
+  {
+    path: '/EditarTecnicos',
+    name: 'EditarTecnicos',
+    component: EditarTecnicos
+  },
   {
     path: '/ListarTareas',
     name: 'ListarRareas',
@@ -46,6 +47,11 @@ const routes = [
     path: '/ListarGrupos',
     name: 'ListarGrupos',
     component: ListarGrupos
+  },
+  {
+    path: '/AgregarGrupo',
+    name: 'AgregarGrupo',
+    component: AgregarGrupo
   },
   {
     path: '/RegistrarCertificacion',
