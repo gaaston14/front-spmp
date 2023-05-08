@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import AboutView from '../views/AboutView.vue'
 import AgregarTecnico from '../views/AgregarTecnico.vue'
+import EditarTecnicos from '../views/EditarTecnicos.vue'
 import ListarTecnicos from '../views/ListarTecnicos.vue'
 import ListarTareas from '../views/ListarTareas.vue'
 import ListarGrupos from '../views/ListarGrupos.vue'
@@ -30,6 +31,11 @@ const routes = [
       name: 'ListarTecnicos',
       component: ListarTecnicos
   },
+{
+  path: '/EditarTecnicos',
+  name: 'EditarTecnicos',
+  component: EditarTecnicos
+},
   {
     path: '/ListarTareas',
     name: 'ListarRareas',

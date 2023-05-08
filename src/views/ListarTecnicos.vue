@@ -15,7 +15,7 @@
             </v-row>
           </v-card-text>
           <v-card-actions>
-            <v-btn color="primary">Modificar</v-btn>
+            <v-btn color="primary" @click="editarTecnico(item.id)">Modificar</v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -40,6 +40,9 @@ export default {
       const response = await fetch(url);
       const data = await response.json();
       this.items = data.body;
+    },
+    editarTecnico(id) {
+      this.$router.push({ name: "EditarTecnicos", params: { id } });
     },
   },
 };
