@@ -6,7 +6,7 @@
         <v-img alt="Vuetify Name" class="shrink mt-1 hidden-sm-and-down" contain min-width="100" src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png" width="100" />
       </div>
       <v-spacer></v-spacer>
-      <v-menu v-for="(item, index) in rutas2" :key="index" :close-on-content-click="false" transition="scale-transition" offset-y>
+      <v-menu v-for="(item, index) in rutas2" :key="index" :close-on-content-click="false" transition="scale-transition" offset-y v-model="item.menu">
         <template v-slot:activator="{ on }">
           <v-btn text v-on="on">
             <v-icon v-if="item.icono">{{ item.icono }}</v-icon>
@@ -14,7 +14,7 @@
           </v-btn>
         </template>
         <v-list>
-          <v-list-item v-for="(subItem, subIndex) in item.subitems" :key="subIndex" @click="insertarRuta(subItem.ruta)">
+          <v-list-item v-for="(subItem, subIndex) in item.subitems" :key="subIndex" @click="insertarRuta(subItem.ruta, item); closeMenu(subItem)">
             <v-list-item-title>
               <v-icon v-if="subItem.icono">{{ subItem.icono }}</v-icon>
               {{ subItem.nombre }}
@@ -37,34 +37,35 @@ export default {
       {
         nombre: "Tecnicos",
         icono: "mdi-account",
+        menu:false,
         subitems: [
-          { nombre: "Crear Tecnico", ruta: "/", icono: "mdi-account-plus"},
-          { nombre: "Modificar Tecnico", ruta: "/about", icono: "mdi-account-edit" },
+          { nombre: "Crear Tecnico", ruta: "/AgregarTecnico", icono: "mdi-account-plus"},
           { nombre: "Listar Tecnicos", ruta: "/ListarTecnicos", icono: "mdi-list-box" }
         ]
       },
       {
         nombre: "Grupos",
         icono: "mdi-account-group",
+        menu:false,
         subitems: [
           { nombre: "Crear Grupo", ruta: "/", icono: "mdi-account-multiple-plus" },
           { nombre: "Modificar Grupo", ruta: "/about", icono: "mdi-pencil" },
-          { nombre: "Listar Grupos", ruta: "/ListarTecnicos", icono: "mdi-list-box" }
+          { nombre: "Listar Grupos", ruta: "/ListarGrupos", icono: "mdi-list-box" }
         ]
       },
       {
         nombre: "Tareas",
         icono: "mdi-format-list-checkbox",
+        menu:false,
         subitems: [
           { nombre: "Agregar Tarea", ruta: "/", icono: "mdi-plus" },
-          { nombre: "Modificar Tareas", ruta: "/about", icono: "mdi-pencil" },
-          { nombre: "Modificar Precio", ruta: "/about", icono: "mdi-currency-usd" },
-          { nombre: "Listar Tareas", ruta: "/ListarTecnicos", icono: "mdi-list-box" },
+          { nombre: "Listar Tareas", ruta: "/ListarTareas", icono: "mdi-list-box" },
         ]
       },
       {
         nombre: "Certificar Tareas",
         icono: "mdi-cash",
+        menu:false,
         subitems: [
           { nombre: "Nueva Certificacion", ruta: "/", icono: "mdi-cash-plus" },
           { nombre: "Consultar Certificacion", ruta: "/about", icono: "mdi-pencil" },
@@ -74,8 +75,12 @@ export default {
     ]
   }),
   methods: {
-    insertarRuta(ruta) {
+    insertarRuta(ruta, item) {
       this.$router.push(ruta);
+      this.closeMenu(item);
+    },
+    closeMenu(item){
+      item.menu = false;
     }
   }
 };

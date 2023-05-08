@@ -1,17 +1,21 @@
 <template>
   <v-container fluid>
-    <v-row >
+    <v-row>
       <v-col v-for="(item, index) in items" :key="index" cols="3">
         <v-card outlined>
           <v-card-title>{{ item.nombre }}</v-card-title>
           <v-card-text>
             <v-row>
-              <v-col cols="6">Codigo:</v-col>
-              <v-col cols="6">{{ item.id }}</v-col>
+              <v-col cols="6">Código:</v-col>
+              <v-col cols="6">{{ item.idTareas }}</v-col>
             </v-row>
             <v-row>
-              <v-col cols="6">Fecha de Nacimiento:</v-col>
-              <v-col cols="6">{{ item.fNac.substring(0,10) }}</v-col>
+              <v-col cols="6">Precio:</v-col>
+              <v-col cols="6">{{ item.precio }}</v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="6">Última fecha de modificación:</v-col>
+              <v-col cols="6">{{ item.fechaDesde.substring(0, 10) }}</v-col>
             </v-row>
           </v-card-text>
           <v-card-actions>
@@ -25,7 +29,7 @@
 
 <script>
 export default {
-  name: "Tecnicos",
+  name: "Tareas",
   data() {
     return {
       items: [],
@@ -36,7 +40,7 @@ export default {
   },
   methods: {
     async fetchData() {
-      const url = "http://localhost:4000/api/tecnicos";
+      const url = "http://localhost:4000/api/tareas/tareaprecio";
       const response = await fetch(url);
       const data = await response.json();
       this.items = data.body;
