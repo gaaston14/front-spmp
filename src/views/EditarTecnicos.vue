@@ -1,53 +1,28 @@
 <template>
-  <v-container>
-    <v-form v-model="valid" ref="form">
-      <v-row>
-        <v-col cols="12" md="6">
-          <v-text-field v-model="tecnico.id" label="ID" readonly></v-text-field>
-        </v-col>
-        <v-col cols="12" md="6">
-          <v-text-field v-model="tecnico.nombre" label="Nombre" required></v-text-field>
-        </v-col>
-        <v-col cols="12" md="6">
-          <v-date-picker v-model="tecnico.fNac" label="Fecha de nacimiento" required></v-date-picker>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col cols="12">
-          <v-btn color="primary" :loading="loading" @click="submitForm">Guardar cambios</v-btn>
-        </v-col>
-      </v-row>
-    </v-form>
-
-    <transition name="fade">
-      <alertas :type="alerta.type" :mensaje="alerta.mensaje" v-if="alerta.mostrar" @salir="alerta.mostrar = false"></alertas>
-    </transition>
+  <v-container fluid>
+    <v-row>
+      <v-col cols="12" md="6">
+        <v-text-field v-model="nombre" label="Nombre"></v-text-field>
+      </v-col>
+      <v-col cols="12" md="6">
+        <v-date-picker v-model="fNac" label="Fecha de Nacimiento"></v-date-picker>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="12">
+        <v-btn color="primary" @click="guardarCambios()">Guardar Cambios</v-btn>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
-
-
 <script>
-import Alertas from "@/components/Alertas.vue";
-
 export default {
-  name: "EditarTecnico",
-  components: {
-    Alertas,
-  },
+  name: "EditarTecnicos",
   data() {
     return {
-      tecnico: {
-        id: "",
-        nombre: "",
-        fNac: "",
-      },
-      valid: true,
-      loading: false,
-      alerta: {
-        mostrar: false,
-        mensaje: "",
-        type: "",
-      },
+      id: this.$route.params.id,
+      nombre: "",
+      fNac: null,
     };
   },
   mounted() {
@@ -55,50 +30,29 @@ export default {
   },
   methods: {
     async fetchData() {
-      const urlParams = new URLSearchParams(window.location.search);
-      const tecnicoId = urlParams.get("id");
-      const url = `http://localhost:4000/api/tecnicos/${tecnicoId}`;
+      const url = `http://localhost:4000/api/tecnicos/${this.id}`;
       const response = await fetch(url);
       const data = await response.json();
-      this.tecnico = data.body;
+      const tecnico = data.body;
+      this.nombre = tecnico.nombre;
+      this.fNac = new Date(tecnico.fNac);
     },
-    async submitForm() {
-      this.loading = true;
-
-      try {
-        const response = await fetch(`http://localhost:4000/api/tecnicos/${this.tecnico.id}`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(this.tecnico),
-        });
-
-        const data = await response.json();
-        this.alerta.mostrar = true;
-        this.alerta.mensaje = data.message;
-        this.alerta.type = "success";
-      } catch (error) {
-        this.alerta.mostrar = true;
-        this.alerta.mensaje = "Error al actualizar técnico";
-        this.alerta.type = "error";
+    async guardarCambios() {
+      const data = {
+        id: this.id,
+        nombre: this.nombre,
+        fNac: this.fNac.toISOString().substring(0, 10),
+      };
+      const url = `http://localhost:4000/api/tecnicos/`;
+      const response = await fetch(url, {
+        method: "PUT",
+        body: JSON.stringify(data),
+        headers: { "Content-Type": "application/json" },
+      });
+      if (response.ok) {
+        this.$router.push({ name: "Tecnicos" });
       }
-
-      this.loading = false;
     },
   },
 };
 </script>
-
-
-<style scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s;
-}
-
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
-}
-</style>
