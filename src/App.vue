@@ -49,7 +49,7 @@ export default {
         menu:false,
         subitems: [
           { nombre: "Crear Grupo", ruta: "/AgregarGrupo", icono: "mdi-account-multiple-plus" },
-          { nombre: "Listar Grupos", ruta: "/ListarGrupos", icono: "mdi-list-box" },
+          { nombre: "Listar Grupos En uso", ruta: "/ListarGrupos", icono: "mdi-list-box" },
           { nombre: "Listar Grupos Libres", ruta: "/ListarGruposLibres", icono: "mdi-list-box" }
         ]
       },
