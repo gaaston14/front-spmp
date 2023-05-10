@@ -22,7 +22,7 @@
               class="mt-2"
             ></v-text-field>
           </template>
-          <v-date-picker v-model="fecha" @input="fechaMenu = false"></v-date-picker>
+          <v-date-picker v-model="fecha" @input="fechaMenu = false" ></v-date-picker>
         </v-menu>
       </v-col>
       <v-col cols="12" sm="6" md="3">
@@ -50,7 +50,7 @@
         </v-menu>
       </v-col>
       <v-col cols="12" sm="6" md="6">
-        <v-select :items="grupoOptions" label="Descripción" v-model="descripcion"></v-select>
+        <v-select :items="grupoOptions" label="Grupo" v-model="descripcion"></v-select>
       </v-col>
       <v-col cols="12" sm="6" md="3">
         <v-text-field label="Conexión" v-model="conexion"></v-text-field>
@@ -64,7 +64,7 @@
       <v-col cols="12" v-for="(tarea, index) in tareas" :key="index">
         <v-row>
           <v-col cols="12" sm="6" md="6">
-            <v-select :items="tareaOptions" label="Descripción tarea" v-model="tarea.descripcion"></v-select>
+            <v-select :items="tareaOptions" label="Tarea" v-model="tarea.descripcion"></v-select>
           </v-col>
           <v-col cols="12" sm="6" md="3">
             <v-text-field label="Cantidad" v-model.number="tarea.cantidad"></v-text-field>
@@ -77,12 +77,19 @@
       <v-col cols="12">
         <v-btn color="primary" @click="enviarFormulario">Enviar formulario</v-btn>
       </v-col>
+
+      <v-row v-if="alerta.mostrar">
+      <v-col>
+        <alertas :type="alerta.type" :mensaje="alerta.mensaje" @salir="alerta.mostrar = false"></alertas>
+      </v-col>
     </v-row>
+    </v-row>
+    
   </v-container>
 </template>
 <script>
 import axios from "axios";
-
+import Alertas from "@/components/Alertas.vue";
 export default {
   name: "Formulario",
   data() {
@@ -95,6 +102,11 @@ export default {
       tareas: [{ descripcion: "", cantidad: "" }],
       tareaOptions: [],
       grupoOptions: [],
+      alerta: {
+        mostrar: false,
+        mensaje: "",
+        type: "",
+      },
     };
   },
   async mounted() {
@@ -115,6 +127,9 @@ export default {
   },
   watch: {
   },
+  components: {
+    Alertas,
+  },
   methods: {
     agregarTarea() {
       this.tareas.push({ descripcion: "", cantidad: "" });
@@ -125,19 +140,40 @@ export default {
     async enviarFormulario() {
       try {
         const data = {
+          idgrupo: this.descripcion,
+          conexion: this.conexion,
+          tareas: this.tareas,
           fecha: this.fecha,
           hora: this.hora,
-          descripcion: this.descripcion,
-          conexion: this.conexion,
           observacion: this.observaciones,
-          tareas: this.tareas,
         };
+        console.log(data);
         const response = await axios.post(
-          "http://localhost:4000/api/formulario",
+          "http://localhost:4000/api/tareas/RegistrarTarea",
           data
         );
         console.log(response.data);
+        console.log(response.body);
+        this.alerta.mostrar = true;
+        this.alerta.mensaje = "Tarea agregada correctamente";
+        this.alerta.type = "success";
+        this.alerta.mostrar = false;
+        this.alerta.mostrar = true;
+        this.fecha = "";
+        this.fechaMenu = "";
+        this.horaMenu = "";
+        this.hora = "";
+        this.descripcion = "";
+        this.conexion = "";
+        this.observaciones = "";
+
+        this.tareas = [{ descripcion: "", cantidad: "" }];
       } catch (error) {
+        this.alerta.mostrar = true;
+        this.alerta.mensaje = "No se pudo agregar la tarea";
+        this.alerta.type = "Error";
+        this.alerta.mostrar = false;
+        this.alerta.mostrar = true;
         console.error(error);
       }
     },
