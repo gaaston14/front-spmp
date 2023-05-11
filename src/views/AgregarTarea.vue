@@ -2,36 +2,17 @@
   <v-container class="my-10">
     <v-row>
       <v-col cols="12" md="6">
-        <v-text-field v-model="tecnico.nombre" label="Nombre" required></v-text-field>
+        <v-text-field v-model="tarea.nombre" label="Nombre" required></v-text-field>
       </v-col>
       <v-col cols="12" md="6">
-        <v-menu
-          v-model="menu"
-          :close-on-content-click="false"
-          :nudge-right="40"
-          transition="scale-transition"
-          offset-y
-          min-width="auto"
-        >
-          <template v-slot:activator="{ on }">
-            <v-text-field
-              v-model="tecnico.fNac"
-              label="Fecha de nacimiento"
-              prepend-icon="mdi-calendar"
-              readonly
-              required
-              v-on="on"
-            ></v-text-field>
-          </template>
-          <v-date-picker v-model="tecnico.fNac" @input="menu = false"></v-date-picker>
-        </v-menu>
+        <v-text-field v-model="tarea.precio" label="Precio" required></v-text-field>
       </v-col>
     </v-row>
     <v-row>
       <v-col cols="12">
         <v-btn color="primary" :loading="loading" @click="submitForm">
-          <v-icon left>mdi-account-plus</v-icon>
-          Agregar técnico
+          <v-icon left>mdi-plus</v-icon>
+          Agregar Tarea
         </v-btn>
       </v-col>
     </v-row>
@@ -54,10 +35,10 @@ export default {
   },
   data() {
     return {
-      tecnico: {
+      tarea: {
         id: "0",
         nombre: "",
-        fNac: "",
+        precio: "",
       },
       loading: false,
       alerta: {
@@ -73,25 +54,27 @@ export default {
       this.loading = true;
 
       try {
-        const response = await fetch("http://localhost:4000/api/tecnicos", {
+        const response = await fetch("http://localhost:4000/api/tareas/AgregarTarea", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(this.tecnico),
+          body: JSON.stringify(this.tarea),
         });
 
         const data = await response.json();
+        console.log(data);
         this.alerta.mostrar = true;
         this.alerta.mensaje = data.body;
         this.alerta.type = "success";
         this.alerta.mostrar = false;
         this.alerta.mostrar = true;
 
-        this.tecnico.nombre = "";
-        this.tecnico.fNac = "";
+        this.tarea.nombre = "";
+        this.tarea.precio = "";
         
       } catch (error) {
+        console.log(error);
         this.alerta.mostrar = true;
         this.alerta.mensaje = "Error al agregar técnico";
         this.alerta.type = "error";

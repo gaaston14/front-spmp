@@ -5,9 +5,9 @@ import AboutView from '../views/AboutView.vue'
 import AgregarTecnico from '../views/AgregarTecnico.vue'
 import EditarTecnicos from '../views/EditarTecnicos.vue'
 import ListarTecnicos from '../views/ListarTecnicos.vue'
+import AgregarTarea from '../views/AgregarTarea.vue'
 import ListarTareas from '../views/ListarTareas.vue'
 import ListarGrupos from '../views/ListarGrupos.vue'
-import ListarGruposLibres from '../views/ListarGruposLibres.vue'
 import AgregarGrupo from '../views/AgregarGrupo.vue'
 import RegistrarCertificacion from '../views/RegistrarTareaCertificacion.vue'
 
@@ -40,6 +40,11 @@ const routes = [
     component: EditarTecnicos
   },
   {
+    path: '/AgregarTarea',
+    name: 'AgregarTarea',
+    component: AgregarTarea
+  },
+  {
     path: '/ListarTareas',
     name: 'ListarRareas',
     component: ListarTareas
@@ -48,11 +53,6 @@ const routes = [
     path: '/ListarGrupos',
     name: 'ListarGrupos',
     component: ListarGrupos
-  },
-  {
-    path: '/ListarGruposLibres',
-    name: 'ListarGruposLibres',
-    component: ListarGruposLibres
   },
   {
     path: '/AgregarGrupo',

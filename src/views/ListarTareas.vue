@@ -7,7 +7,7 @@
           <v-card-text>
             <v-row>
               <v-col cols="6">Código:</v-col>
-              <v-col cols="6">{{ item.idTareas }}</v-col>
+              <v-col cols="6">{{ item.id }}</v-col>
             </v-row>
             <v-row>
               <v-col cols="6">Precio:</v-col>
