@@ -116,7 +116,7 @@ export default {
         text: tarea.nombre,
         value: tarea.id,
       }));
-      const responseGrupos = await axios.get("http://localhost:4000/api/grupos");
+      const responseGrupos = await axios.get("http://localhost:4000/api/grupos/asignados");
       this.grupoOptions = responseGrupos.data.body.map((grupo) => ({
         text: grupo.descripcion,
         value: grupo.id,

@@ -72,7 +72,7 @@ export default {
         subitems: [
           { nombre: "Nueva Certificacion", ruta: "/RegistrarCertificacion", icono: "mdi-cash-plus" },
           { nombre: "Consultar Certificacion", ruta: "/about", icono: "mdi-pencil" },
-          { nombre: "Listar Certifiaciones", ruta: "/ListarTecnicos", icono: "mdi-view-list" }
+          { nombre: "Listar Certifiaciones", ruta: "/ListarCertificaciones", icono: "mdi-view-list" }
         ]
       },
     ]

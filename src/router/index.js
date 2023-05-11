@@ -10,6 +10,8 @@ import ListarTareas from '../views/ListarTareas.vue'
 import ListarGrupos from '../views/ListarGrupos.vue'
 import AgregarGrupo from '../views/AgregarGrupo.vue'
 import RegistrarCertificacion from '../views/RegistrarTareaCertificacion.vue'
+import ListarCertificaciones from '../views/ListarCertificaciones.vue'
+
 
 Vue.use(VueRouter)
 
@@ -63,6 +65,11 @@ const routes = [
     path: '/RegistrarCertificacion',
     name: 'RegistrarCertificacion',
     component: RegistrarCertificacion
+  },
+  {
+    path: '/ListarCertificaciones',
+    name: 'ListarCertificaciones',
+    component: ListarCertificaciones
   },
 ]
 
