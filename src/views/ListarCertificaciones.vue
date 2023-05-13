@@ -20,11 +20,16 @@
     </v-row>
     <v-row>
       <v-col cols="12">
-        <v-data-table :headers="headers" :items="tareas" hide-default-footer></v-data-table>
+        <v-data-table :headers="headers" :items="tareas" hide-default-footer>
+          <template v-slot:item.fechaCumplimiento="{ item }">
+            {{ item.fechaCumplimiento | formatDate }}
+          </template>
+        </v-data-table>
       </v-col>
     </v-row>
   </v-container>
 </template>
+
 <script>
 import axios from 'axios';
 
@@ -41,7 +46,13 @@ export default {
       headers: [
         { text: 'Nombre', value: 'nombre' },
         { text: 'Conexión', value: 'conexion' },
-        { text: 'Fecha de Cumplimiento', value: 'fechaCumplimiento' },
+        {
+          text: 'Fecha de Cumplimiento',
+          value: 'fechaCumplimiento',
+          sortable: true,
+          width: '200',
+          class: 'text-truncate',
+        },
         { text: 'Hora', value: 'hora' },
         { text: 'Tarea', value: 'tarea' },
         { text: 'Cantidad', value: 'cantidad' },
@@ -90,6 +101,12 @@ export default {
       } catch (error) {
         console.error(error);
       }
+    },
+  },
+  filters: {
+    formatDate(value) {
+      if (!value) return '';
+      return value.slice(0, 10);
     },
   },
 };
