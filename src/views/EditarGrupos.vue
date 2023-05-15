@@ -53,7 +53,6 @@
     </v-row>
   </v-container>
 </template>
-
 <script>
 import axios from 'axios';
 
@@ -103,50 +102,51 @@ export default {
       }
     },
     eliminarTecnico(idTecnico) {
-      const data = {
-        idGrupo: this.numGrupo,
-        idTecnico: idTecnico,
-      };
-      axios
-        .put("http://localhost:4000/api/grupos/editarGrupo", data)
-        .then((response) => {
-          console.log(response.data);
-          this.mostrarMensajeEliminado();
-          const tecnicosIds = [...this.$route.params.tecnicosIds]; // Copiar el arreglo de IDs existentes
-          tecnicosIds.push(idTecnico); // Agregar el ID del técnico eliminado
-          this.fetchTecnicos(tecnicosIds);
-        })
-        .catch((error) => {
-          console.error(error);
-          // Manejar errores en caso de que la solicitud PUT falle
-        });
-    },
-    agregarTecnico() {
-      // Obtener el técnico seleccionado por su ID
-      const tecnicoSeleccionado = this.tecnicosDisponibles.find(
-        (tecnico) => tecnico.id === this.tecnicoSeleccionado
-      );
-      if (tecnicoSeleccionado) {
-        const data = {
-          idGupo: this.numGrupo,
-          idTecnico: tecnicoSeleccionado.id,
-        };
-        axios
-          .post("http://localhost:4000/api/grupos/agregarGrupo", data)
-          .then((response) => {
-            console.log(response.data);
-            this.mostrarMensajeEliminado();
-            const tecnicosIds = [...this.$route.params.tecnicosIds, tecnicoSeleccionado.id]; // Agregar el ID del nuevo técnico al arreglo de IDs
-            this.fetchTecnicos(tecnicosIds);
-            this.tecnicoSeleccionado = null; // Restablecer el valor seleccionado en la lista desplegable
-            this.mostrarAgregarTecnico = false; // Cerrar el diálogo
-          })
-          .catch((error) => {
-            console.error(error);
-            // Manejar errores en caso de que la solicitud PUT falle
-          });
-      }
-    },
+  const data = {
+    idGupo: this.numGrupo,
+    idTecnico: idTecnico,
+  };
+  axios
+    .put("http://localhost:4000/api/grupos/editarGrupo", data)
+    .then((response) => {
+      console.log(response.data);
+      // Eliminar el técnico de la lista tecnicos
+      this.tecnicos = this.tecnicos.filter((tecnico) => tecnico.id !== idTecnico);
+      this.mostrarMensajeEliminado();
+    })
+    .catch((error) => {
+      console.error(error);
+      // Manejar errores en caso de que la solicitud PUT falle
+    });
+},
+
+agregarTecnico() {
+  // Obtener el técnico seleccionado por su ID
+  const tecnicoSeleccionado = this.tecnicosDisponibles.find(
+    (tecnico) => tecnico.id === this.tecnicoSeleccionado
+  );
+  if (tecnicoSeleccionado) {
+    const data = {
+      idGupo: this.numGrupo,
+      idTecnico: tecnicoSeleccionado.id,
+    };
+    axios
+      .post("http://localhost:4000/api/grupos/agregarGrupo", data)
+      .then((response) => {
+        console.log(response.data);
+        this.mostrarMensajeEliminado();
+        // Agregar el nuevo técnico a la lista tecnicos
+        this.tecnicos.push(tecnicoSeleccionado);
+        this.tecnicoSeleccionado = null; // Restablecer el valor seleccionado en la lista desplegable
+        this.mostrarAgregarTecnico = false; // Cerrar el diálogo
+      })
+      .catch((error) => {
+        console.error(error);
+        // Manejar errores en caso de que la solicitud PUT falle
+      });
+  }
+},
+
   },
 };
 </script>
