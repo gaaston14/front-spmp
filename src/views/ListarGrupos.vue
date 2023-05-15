@@ -11,7 +11,7 @@
           </v-card-subtitle>
           <v-card-text>
             <v-row>
-              <v-col v-if=" grupo.tecnicos.length > 0" cols="12">Técnicos:</v-col>
+              <v-col v-if="grupo.tecnicos.length > 0" cols="12">Técnicos:</v-col>
             </v-row>
             <v-row v-for="(tecnico, index) in grupo.tecnicos" :key="index">
               <v-col cols="6">{{ tecnico.nombre }}</v-col>
@@ -19,12 +19,11 @@
             </v-row>
           </v-card-text>
           <v-card-actions>
-            <v-btn color="primary" @click="modificarGrupo(grupo.numGrupo)">Modificar grupo</v-btn>
+            <v-btn color="primary" @click="editarGrupo(grupo.numGrupo, grupo.tecnicos.map(tecnico => tecnico.idTecnico))">Modificar grupo</v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
     </v-row>
-    
   </v-container>
 </template>
 
@@ -56,10 +55,9 @@ export default {
       console.error(error);
     }
   },
-
   methods: {
-    modificarGrupo(numGrupo) {
-      alert(`Modificando grupo ${numGrupo}`);
+    editarGrupo(numGrupo, tecnicosIds) {
+      this.$router.push({ name: "EditarGrupos", params: { numGrupo, tecnicosIds } });
     },
   },
 };

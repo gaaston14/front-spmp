@@ -9,9 +9,10 @@ import AgregarTarea from '../views/AgregarTarea.vue'
 import ListarTareas from '../views/ListarTareas.vue'
 import ListarGrupos from '../views/ListarGrupos.vue'
 import AgregarGrupo from '../views/AgregarGrupo.vue'
+import EditarGrupos from '../views/EditarGrupos.vue'
 import RegistrarCertificacion from '../views/RegistrarTareaCertificacion.vue'
 import ListarCertificaciones from '../views/ListarCertificaciones.vue'
-
+import EditarTarea from '../views/EditarTarea.vue'
 
 Vue.use(VueRouter)
 
@@ -47,6 +48,11 @@ const routes = [
     component: AgregarTarea
   },
   {
+    path: '/EditarTarea',
+    name: 'EditarTarea',
+    component: EditarTarea
+  },
+  {
     path: '/ListarTareas',
     name: 'ListarRareas',
     component: ListarTareas
@@ -60,6 +66,11 @@ const routes = [
     path: '/AgregarGrupo',
     name: 'AgregarGrupo',
     component: AgregarGrupo
+  },
+  {
+    path: '/EditarGrupos',
+    name: 'EditarGrupos',
+    component: EditarGrupos
   },
   {
     path: '/RegistrarCertificacion',
